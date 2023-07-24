@@ -118,10 +118,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-24T15:18:52.243512Z)
+// jay: Person = Person(created_at = 2023-07-24T16:11:27.277054Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res4: List[Tuple2[String, String]] = List(("created_at", "1690211932"))
+// res4: List[Tuple2[String, String]] = List(("created_at", "1690215087"))
 ```
 
 ### FormDataEncoder[T]

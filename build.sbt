@@ -35,6 +35,8 @@ lazy val docs = (project in file("formify-docs"))
   .dependsOn(root)
   .enablePlugins(MdocPlugin)
   .settings(
+    mdocIn  := file("docs/README.md"),
+    mdocOut := file("README.md"),
     mdocVariables := Map(
       "VERSION" -> version.value
     )
