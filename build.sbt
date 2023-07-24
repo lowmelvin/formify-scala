@@ -30,3 +30,12 @@ lazy val root = (project in file("."))
       new TestFramework("weaver.framework.CatsEffect")
     )
   )
+
+lazy val docs = (project in file("formify-docs"))
+  .dependsOn(root)
+  .enablePlugins(MdocPlugin)
+  .settings(
+    mdocVariables := Map(
+      "VERSION" -> version.value
+    )
+  )

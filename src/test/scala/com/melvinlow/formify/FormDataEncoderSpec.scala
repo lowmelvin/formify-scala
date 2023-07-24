@@ -12,7 +12,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A("hello", 123, true)
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect(encoded.compile == Chain(
       ("a", "hello"),
@@ -30,7 +30,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(123, A("hello"))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect(encoded.compile == Chain(
       ("b", "123"),
@@ -46,7 +46,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(None, Some("hello"))
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect(encoded.compile == Chain(
       ("b", "hello")
@@ -62,7 +62,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(None, Some(A("hello")))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect(encoded.compile == Chain(
       ("b.a", "hello")
@@ -77,7 +77,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(List(1, 2), List())
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -95,7 +95,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Vector(1, 2), Vector())
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -113,7 +113,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Seq(1, 2), Seq())
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -131,7 +131,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Array(1, 2), Array())
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -150,7 +150,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(List(A("hello", 1), A("world", 2)), List())
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -171,7 +171,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Vector(A("hello", 1), A("world", 2)), Vector())
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -192,7 +192,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Seq(A("hello", 1), A("world", 2)), Seq())
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -213,7 +213,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Array(A("hello", 1), A("world", 2)), Array())
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -233,7 +233,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(List(Some(1), Some(2), None, Some(3)))
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -252,7 +252,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Vector(Some(1), Some(2), None, Some(3)))
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -271,7 +271,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Seq(Some(1), Some(2), None, Some(3)))
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -290,7 +290,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = A(Array(Some(1), Some(2), None, Some(3)))
     val encoded  = FormDataEncoder[A].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -310,7 +310,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(List(Some(A(1)), Some(A(2)), None, Some(A(3))))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -330,7 +330,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Vector(Some(A(1)), Some(A(2)), None, Some(A(3))))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -350,7 +350,7 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Seq(Some(A(1)), Some(A(2)), None, Some(A(3))))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
@@ -370,13 +370,74 @@ object FormDataEncoderSpec extends weaver.FunSuite {
     val instance = B(Array(Some(A(1)), Some(A(2)), None, Some(A(3))))
     val encoded  = FormDataEncoder[B].encode(instance)
 
-    given FormKeyCompiler = FormKeyCompiler.make(_.toList.mkString("."))
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
 
     expect {
       encoded.compile == Chain(
         ("a.0.a", "1"),
         ("a.1.a", "2"),
         ("a.2.a", "3")
+      )
+    }
+  }
+
+  test("should encode a Map[String, Int]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = Map("a" -> 1, "b" -> 2)
+    val encoded  = FormDataEncoder[Map[String, Int]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("a", "1"),
+        ("b", "2")
+      )
+    }
+  }
+
+  test("should encode a Map[String, Product]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    final case class A(a: String, b: Int)
+
+    val instance = Map("a" -> A("hello", 1), "b" -> A("world", 2))
+    val encoded  = FormDataEncoder[Map[String, A]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("a.a", "hello"),
+        ("a.b", "1"),
+        ("b.a", "world"),
+        ("b.b", "2")
+      )
+    }
+  }
+
+  test("should encode a Map[String, Map[String, Option[Product]]]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    final case class A(a: String, b: Int)
+
+    val instance = Map(
+      "a" -> Map("a" -> Some(A("hello", 1)), "b" -> None),
+      "b" -> Map("a" -> Some(A("world", 2)), "b" -> Some(A("!", 3)))
+    )
+    val encoded = FormDataEncoder[Map[String, Map[String, Option[A]]]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("a.a.a", "hello"),
+        ("a.a.b", "1"),
+        ("b.a.a", "world"),
+        ("b.a.b", "2"),
+        ("b.b.a", "!"),
+        ("b.b.b", "3")
       )
     }
   }

@@ -22,4 +22,9 @@ object FormValueSpec extends weaver.FunSuite {
       case _            => expect(true)
     }
   }
+
+  test("should check if empty") {
+    expect(FormValue("hello").isEmpty == false)
+    expect(FormValue.empty.isEmpty == true)
+  }
 }

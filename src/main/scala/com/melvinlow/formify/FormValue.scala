@@ -11,5 +11,9 @@ object FormValue {
 
   extension (value: FormValue) {
     inline def underlying: Option[String] = value
+
+    inline def isEmpty: Boolean = value.isEmpty
+
+    inline def isNonEmpty: Boolean = !isEmpty
   }
 }

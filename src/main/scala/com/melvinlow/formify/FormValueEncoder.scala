@@ -7,7 +7,7 @@ trait FormValueEncoder[T] {
 }
 
 object FormValueEncoder {
-  inline def apply[T](using enc: FormValueEncoder[T]) = enc
+  inline def apply[T](using enc: FormValueEncoder[T]): FormValueEncoder[T] = enc
 
   given Contravariant[FormValueEncoder] with {
     def contramap[A, B](fa: FormValueEncoder[A])(f: B => A): FormValueEncoder[B] =

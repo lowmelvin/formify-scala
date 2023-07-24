@@ -54,11 +54,11 @@ object FormDataEncoder {
 
       labels.lazyZip(values).lazyZip(encoders).map {
         case (label, value, formDataEncoder: FormDataEncoder[v]) =>
-          formDataEncoder.encode(value.asInstanceOf[v]).prepend(FormKeyFragment(label))
+          formDataEncoder.encode(value.asInstanceOf[v]).prepend(FormFieldFragment(label))
 
         case (label, value, formValueEncoder: FormValueEncoder[v]) =>
           FormData.one(
-            FormKey.one(FormKeyFragment(label)),
+            FormField.one(FormFieldFragment(label)),
             formValueEncoder.encode(value.asInstanceOf[v])
           )
       }.foldLeft(FormData.empty)(_ ++ _)
