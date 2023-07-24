@@ -5,6 +5,8 @@ import cats.syntax.all.*
 
 import java.util.UUID
 
+import scala.deriving.*
+
 object instances {
   trait FormValueEncoders {
     given stringValueEncoder: FormValueEncoder[String]   = (value: String) => FormValue(value)
@@ -66,7 +68,14 @@ object instances {
     }
   }
 
+  trait ProductEncoders {
+    inline given productFormEncoder[T: Mirror.ProductOf]: FormDataEncoder[T] =
+      FormDataEncoder.derived[T]
+  }
+
   object FormDataEncoderInstances  extends FormDataEncoders
   object FormValueEncoderInstances extends FormValueEncoders
-  object all                       extends FormDataEncoders with FormValueEncoders
+  object ProductEncoderInstances   extends ProductEncoders
+  object semiauto                  extends FormDataEncoders with FormValueEncoders
+  object auto extends FormDataEncoders with FormValueEncoders with ProductEncoders
 }

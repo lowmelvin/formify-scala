@@ -1,21 +1,24 @@
 package com.melvinlow.formify
 
+import cats.Contravariant
+
 import scala.compiletime.*
 import scala.compiletime.ops.any.*
 import scala.deriving.*
 
 trait FormDataEncoder[T] {
   def encode(data: T): FormData
-
-  extension (data: T) {
-    inline def asFormData: FormData = encode(data)
-  }
 }
 
 object FormDataEncoder {
   inline def apply[T](using enc: FormDataEncoder[T]) = enc
 
-  inline def encode[T: FormDataEncoder](data: T): FormData = data.asFormData
+  inline def encode[T: FormDataEncoder](data: T): FormData = FormDataEncoder[T].encode(data)
+
+  given Contravariant[FormDataEncoder] with {
+    def contramap[A, B](fa: FormDataEncoder[A])(f: B => A): FormDataEncoder[B] =
+      (value: B) => fa.encode(f(value))
+  }
 
   inline private def summonEncoders[T, Elems <: Tuple]: List[?] =
     inline erasedValue[Elems] match {
