@@ -7,7 +7,7 @@ import java.net.URLEncoder
 opaque type FormData = Chain[(FormKey, FormValue)]
 
 object FormData {
-  inline def Empty: FormData = Chain.empty
+  inline def empty: FormData = Chain.empty
 
   inline def one(key: FormKey, value: FormValue): FormData = Chain.one((key, value))
 

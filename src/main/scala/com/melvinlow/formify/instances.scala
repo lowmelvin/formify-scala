@@ -5,6 +5,7 @@ import cats.syntax.all.*
 
 import java.util.UUID
 
+import scala.compiletime.summonFrom
 import scala.deriving.*
 
 object instances {
@@ -30,42 +31,117 @@ object instances {
 
     given optionValueEncoder[T](using enc: FormValueEncoder[T]): FormValueEncoder[Option[T]] = {
       case Some(value) => enc.encode(value)
-      case None        => FormValue.Empty
+      case None        => FormValue.empty
     }
   }
 
   trait FormDataEncoders {
     given optionFormEncoder[T](using enc: FormDataEncoder[T]): FormDataEncoder[Option[T]] = {
       case Some(value) => enc.encode(value)
-      case None        => FormData.Empty
+      case None        => FormData.empty
     }
 
-    given traverseFormEncoder_WithForms[F[_]: Traverse, T](using
-      enc: FormValueEncoder[T]
-    ): FormDataEncoder[F[T]] = (value: F[T]) => {
-      val (_, result) =
-        Traverse[F].foldLeft(value, (0, FormData.Empty)) { case ((idx, acc), value) =>
-          enc.encode(value) match {
-            case v @ FormValue(_) =>
-              (idx + 1, acc ++ FormData.one(FormKey.one(FormKeyFragment(idx.toString)), v))
-            case _ => (idx, acc)
+    given listFormEncoder_WithForms[T](using enc: FormDataEncoder[T]): FormDataEncoder[List[T]] =
+      (value: List[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            val encoded = enc.encode(value)
+            if (encoded.underlying.isEmpty) (idx, acc)
+            else (idx + 1, acc ++ encoded.prepend(FormKeyFragment(idx.toString)))
           }
-        }
+        result
+      }
 
-      result
-    }
+    given listFormEncoder_WithValues[T](using enc: FormValueEncoder[T]): FormDataEncoder[List[T]] =
+      (value: List[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            enc.encode(value) match {
+              case v @ FormValue(_) =>
+                (idx + 1, acc ++ FormData.one(FormKey.one(FormKeyFragment(idx.toString)), v))
+              case _ => (idx, acc)
+            }
+          }
+        result
+      }
 
-    given traverseFormEncoder_WithValues[F[_]: Traverse, T](using
+    given vectorFormEncoder_WithForms[T](using
       enc: FormDataEncoder[T]
-    ): FormDataEncoder[F[T]] = (value: F[T]) => {
-      val (_, result) =
-        Traverse[F].foldLeft(value, (0, FormData.Empty)) { case ((idx, acc), value) =>
-          val encoded = enc.encode(value)
-          if (encoded.underlying.isEmpty) (idx, acc)
-          else (idx + 1, acc ++ encoded.prepend(FormKeyFragment(idx.toString)))
-        }
-      result
-    }
+    ): FormDataEncoder[Vector[T]] =
+      (value: Vector[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            val encoded = enc.encode(value)
+            if (encoded.underlying.isEmpty) (idx, acc)
+            else (idx + 1, acc ++ encoded.prepend(FormKeyFragment(idx.toString)))
+          }
+        result
+      }
+
+    given vectorFormEncoder_WithValues[T](using
+      enc: FormValueEncoder[T]
+    ): FormDataEncoder[Vector[T]] =
+      (value: Vector[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            enc.encode(value) match {
+              case v @ FormValue(_) =>
+                (idx + 1, acc ++ FormData.one(FormKey.one(FormKeyFragment(idx.toString)), v))
+              case _ => (idx, acc)
+            }
+          }
+        result
+      }
+
+    given seqFormEncoder_WithForms[T](using enc: FormDataEncoder[T]): FormDataEncoder[Seq[T]] =
+      (value: Seq[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            val encoded = enc.encode(value)
+            if (encoded.underlying.isEmpty) (idx, acc)
+            else (idx + 1, acc ++ encoded.prepend(FormKeyFragment(idx.toString)))
+          }
+        result
+      }
+
+    given seqFormEncoder_WithValues[T](using enc: FormValueEncoder[T]): FormDataEncoder[Seq[T]] =
+      (value: Seq[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            enc.encode(value) match {
+              case v @ FormValue(_) =>
+                (idx + 1, acc ++ FormData.one(FormKey.one(FormKeyFragment(idx.toString)), v))
+              case _ => (idx, acc)
+            }
+          }
+        result
+      }
+
+    given arrayFormEncoder_WithForms[T](using enc: FormDataEncoder[T]): FormDataEncoder[Array[T]] =
+      (value: Array[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            val encoded = enc.encode(value)
+            if (encoded.underlying.isEmpty) (idx, acc)
+            else (idx + 1, acc ++ encoded.prepend(FormKeyFragment(idx.toString)))
+          }
+        result
+      }
+
+    given arrayFormEncoder_WithValues[T](using
+      enc: FormValueEncoder[T]
+    ): FormDataEncoder[Array[T]] =
+      (value: Array[T]) => {
+        val (_, result) =
+          value.foldLeft((0, FormData.empty)) { case ((idx, acc), value) =>
+            enc.encode(value) match {
+              case v @ FormValue(_) =>
+                (idx + 1, acc ++ FormData.one(FormKey.one(FormKeyFragment(idx.toString)), v))
+              case _ => (idx, acc)
+            }
+          }
+        result
+      }
   }
 
   trait ProductEncoders {

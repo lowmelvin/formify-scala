@@ -61,7 +61,7 @@ object FormDataEncoder {
             FormKey.one(FormKeyFragment(label)),
             formValueEncoder.encode(value.asInstanceOf[v])
           )
-      }.foldLeft(FormData.Empty)(_ ++ _)
+      }.foldLeft(FormData.empty)(_ ++ _)
     }
   }
 }

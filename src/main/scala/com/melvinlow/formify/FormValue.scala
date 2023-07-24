@@ -3,7 +3,7 @@ package com.melvinlow.formify
 opaque type FormValue = Option[String]
 
 object FormValue {
-  inline def Empty: FormValue = None
+  inline def empty: FormValue = None
 
   inline def apply(value: String): FormValue = Some(value)
 
