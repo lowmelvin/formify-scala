@@ -23,7 +23,8 @@ usePgpKeyHex("821A82C15670B776F9950C8046E96DBCFD1E8107")
 
 lazy val root = (project in file("."))
   .settings(
-    name := "formify",
+    name        := "formify",
+    description := "Scala library to convert generic product types to form data",
     libraryDependencies ++= Seq(
       "org.typelevel"       %% "cats-core"   % CatsVersion,
       "com.disneystreaming" %% "weaver-cats" % WeaverCatsVersion % Test
