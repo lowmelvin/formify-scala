@@ -1,11 +1,15 @@
 # Formify-Scala
 
-Formify-Scala is a utility library built to convert
+Formify is a Scala 3 utility library built to convert
 generic product types into the `x-www-form-urlencoded` data format.
 This format is sometimes required by various APIs (notably the [Stripe API](https://stripe.com/docs/api))
 when transmitting data. This library offers a simple
 method of transforming your algebraic data types into strings
 compliant with this content type.
+
+```scala
+libraryDependencies += "com.melvinlow" %% "formify" % <version>
+```
 
 ## Background
 
@@ -30,7 +34,7 @@ final case class LineItem(price: String, quantity: Int)
 val data = Payload(List(LineItem("price_H5ggYwtDq4fbrJ", 2)), "payment")
 ```
 
-Formify-Scala facilitates the transformation of such a representation back to its original form:
+Formify facilitates the transformation of such a representation back to its original form:
 
 
 ```scala
@@ -117,10 +121,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T04:11:30.333686Z)
+// jay: Person = Person(created_at = 2023-07-25T04:31:25.905588Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res4: List[Tuple2[String, String]] = List(("created_at", "1690258290"))
+// res4: List[Tuple2[String, String]] = List(("created_at", "1690259485"))
 ```
 
 ### FormDataEncoder[T]

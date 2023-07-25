@@ -1,11 +1,15 @@
 # Formify-Scala
 
-Formify-Scala is a utility library built to convert
+Formify is a Scala 3 utility library built to convert
 generic product types into the `x-www-form-urlencoded` data format.
 This format is sometimes required by various APIs (notably the [Stripe API](https://stripe.com/docs/api))
 when transmitting data. This library offers a simple
 method of transforming your algebraic data types into strings
 compliant with this content type.
+
+```scala
+libraryDependencies += "com.melvinlow" %% "formify" % <version>
+```
 
 ## Background
 
@@ -30,7 +34,7 @@ final case class LineItem(price: String, quantity: Int)
 val data = Payload(List(LineItem("price_H5ggYwtDq4fbrJ", 2)), "payment")
 ```
 
-Formify-Scala facilitates the transformation of such a representation back to its original form:
+Formify facilitates the transformation of such a representation back to its original form:
 
 ```scala mdoc:invisible
 import com.melvinlow.formify.*
