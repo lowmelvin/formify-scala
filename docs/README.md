@@ -178,7 +178,7 @@ while keeping the default behavior for `List[String]`:
 
 ```scala mdoc
 given FormValueEncoder[List[Int]] =
-  FormValueEncoder[String].contramap(_.mkString(", "))
+  FormValueEncoder[String].contramap(_.mkString(" and "))
 
 final case class Bird(ages: List[Int], colors: List[String])
 

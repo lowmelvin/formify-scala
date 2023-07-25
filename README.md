@@ -121,10 +121,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T04:34:07.790366Z)
+// jay: Person = Person(created_at = 2023-07-25T04:35:37.178237Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res4: List[Tuple2[String, String]] = List(("created_at", "1690259647"))
+// res4: List[Tuple2[String, String]] = List(("created_at", "1690259737"))
 ```
 
 ### FormDataEncoder[T]
@@ -189,7 +189,7 @@ while keeping the default behavior for `List[String]`:
 
 ```scala
 given FormValueEncoder[List[Int]] =
-  FormValueEncoder[String].contramap(_.mkString(", "))
+  FormValueEncoder[String].contramap(_.mkString(" and "))
 
 final case class Bird(ages: List[Int], colors: List[String])
 
@@ -201,7 +201,7 @@ val mai = Bird(List(1, 2, 3), List("red", "blue", "green"))
 
 FormDataEncoder.encode(mai).compile.toList
 // res6: List[Tuple2[String, String]] = List(
-//   ("ages", "1, 2, 3"),
+//   ("ages", "1 and 2 and 3"),
 //   ("colors[0]", "red"),
 //   ("colors[1]", "blue"),
 //   ("colors[2]", "green")
