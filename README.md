@@ -90,6 +90,19 @@ FormDataEncoder.encode(mirai).compile.toList
 // )
 ```
 
+Finally, if you'd like, you can import the `syntax` package to
+gain access to the `asFormData` extension shortcut:
+
+```scala
+import com.melvinlow.formify.syntax.all.*
+
+mirai.asFormData.compile.toList
+// res4: List[Tuple2[String, String]] = List(
+//   ("favorite_foods[0]", "sushi"),
+//   ("favorite_foods[1]", "taco bell")
+// )
+```
+
 ## Typeclasses and Extensions
 
 Besides the `FormFieldComposer`, there are two important
@@ -121,10 +134,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T04:35:37.178237Z)
+// jay: Person = Person(created_at = 2023-07-25T07:02:29.363187Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res4: List[Tuple2[String, String]] = List(("created_at", "1690259737"))
+// res5: List[Tuple2[String, String]] = List(("created_at", "1690268549"))
 ```
 
 ### FormDataEncoder[T]
@@ -164,7 +177,7 @@ val aya = Puppy(Set("woof", "wan", "bark", "bitcoin"))
 // aya: Puppy = Puppy(favorite_words = Set("woof", "wan", "bark", "bitcoin"))
 
 FormDataEncoder.encode(aya).compile.toList
-// res5: List[Tuple2[String, String]] = List(
+// res6: List[Tuple2[String, String]] = List(
 //   ("favorite_words[0]", "bark"),
 //   ("favorite_words[1]", "bitcoin"),
 //   ("favorite_words[2]", "wan"),
@@ -200,7 +213,7 @@ val mai = Bird(List(1, 2, 3), List("red", "blue", "green"))
 // )
 
 FormDataEncoder.encode(mai).compile.toList
-// res6: List[Tuple2[String, String]] = List(
+// res7: List[Tuple2[String, String]] = List(
 //   ("ages", "1 and 2 and 3"),
 //   ("colors[0]", "red"),
 //   ("colors[1]", "blue"),

@@ -88,6 +88,15 @@ val mirai = Cat(None, Array("sushi", "taco bell"))
 FormDataEncoder.encode(mirai).compile.toList
 ```
 
+Finally, if you'd like, you can import the `syntax` package to
+gain access to the `asFormData` extension shortcut:
+
+```scala mdoc
+import com.melvinlow.formify.syntax.all.*
+
+mirai.asFormData.compile.toList
+```
+
 ## Typeclasses and Extensions
 
 Besides the `FormFieldComposer`, there are two important
