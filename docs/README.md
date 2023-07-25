@@ -2,7 +2,9 @@
 
 Formify is a Scala 3 utility library built to convert
 generic product types into the `x-www-form-urlencoded` data format.
-This format is sometimes required by various APIs (notably the [Stripe API](https://stripe.com/docs/api))
+This format is sometimes required by various APIs (notably
+the [Stripe API](https://stripe.com/docs/api)
+and [Twilio API](https://www.twilio.com/docs/usage/api))
 when transmitting data. This library offers a simple
 method of transforming your algebraic data types into strings
 compliant with this content type.
@@ -195,3 +197,15 @@ val mai = Bird(List(1, 2, 3), List("red", "blue", "green"))
 
 FormDataEncoder.encode(mai).compile.toList
 ```
+
+Finally, it's worth noting that `x-www-form-urlencoded` payloads
+are fundamentally just key-value pairs. As such, there
+is no inherent notion of nesting. However, the definition
+of `FormData` under the hood is just
+a `Chain[(NonEmptyChain[String], String)]` (i.e., key-value pairs),
+which means that it is flexible enough to support any encoding scheme.
+
+Simply go through `instances.scala` and
+[import](https://docs.scala-lang.org/scala3/reference/contextual/given-imports.html)
+whatever default converters you need. You can then implement
+the rest as you see fit.

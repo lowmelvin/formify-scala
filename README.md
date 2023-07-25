@@ -2,7 +2,9 @@
 
 Formify is a Scala 3 utility library built to convert
 generic product types into the `x-www-form-urlencoded` data format.
-This format is sometimes required by various APIs (notably the [Stripe API](https://stripe.com/docs/api))
+This format is sometimes required by various APIs (notably
+the [Stripe API](https://stripe.com/docs/api)
+and [Twilio API](https://www.twilio.com/docs/usage/api))
 when transmitting data. This library offers a simple
 method of transforming your algebraic data types into strings
 compliant with this content type.
@@ -134,10 +136,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T07:02:29.363187Z)
+// jay: Person = Person(created_at = 2023-07-25T12:14:42.730284Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res5: List[Tuple2[String, String]] = List(("created_at", "1690268549"))
+// res5: List[Tuple2[String, String]] = List(("created_at", "1690287282"))
 ```
 
 ### FormDataEncoder[T]
@@ -220,3 +222,15 @@ FormDataEncoder.encode(mai).compile.toList
 //   ("colors[2]", "green")
 // )
 ```
+
+Finally, it's worth noting that `x-www-form-urlencoded` payloads
+are fundamentally just key-value pairs. As such, there
+is no inherent notion of nesting. However, the definition
+of `FormData` under the hood is just
+a `Chain[(NonEmptyChain[String], String)]` (i.e., key-value pairs),
+which means that it is flexible enough to support any encoding scheme.
+
+Simply go through `instances.scala` and
+[import](https://docs.scala-lang.org/scala3/reference/contextual/given-imports.html)
+whatever default converters you need. You can then implement
+the rest as you see fit.
