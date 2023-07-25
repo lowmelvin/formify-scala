@@ -136,10 +136,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T12:16:57.225460Z)
+// jay: Person = Person(created_at = 2023-07-25T12:19:43.782682Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res5: List[Tuple2[String, String]] = List(("created_at", "1690287417"))
+// res5: List[Tuple2[String, String]] = List(("created_at", "1690287583"))
 ```
 
 ### FormDataEncoder[T]
@@ -227,7 +227,7 @@ Finally, it's worth noting that `x-www-form-urlencoded` payloads
 are fundamentally just key-value pairs. As such, there
 is no inherent notion of nesting. However, the definition
 of `FormData` underneath the hood is just
-a `Chain[(NonEmptyChain[String], String)]` (i.e., key-value pairs),
+a `Chain[(NonEmptyChain[String], Option[String])]` (i.e., key-value pairs),
 which means that it is flexible enough to support any encoding scheme.
 
 Simply go through `instances.scala` and
