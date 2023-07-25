@@ -441,4 +441,74 @@ object FormDataEncoderSpec extends weaver.FunSuite {
       )
     }
   }
+
+  test("should encode a Chain[Int]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = Chain(1, 2, 3)
+    val encoded  = FormDataEncoder[Chain[Int]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0", "1"),
+        ("1", "2"),
+        ("2", "3")
+      )
+    }
+  }
+
+  test("should encode a Chain[List[Int]]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = Chain(List(1, 2), List(3, 4))
+    val encoded  = FormDataEncoder[Chain[List[Int]]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0.0", "1"),
+        ("0.1", "2"),
+        ("1.0", "3"),
+        ("1.1", "4")
+      )
+    }
+  }
+
+  test("should encode a NonEmptyChain[Int]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = NonEmptyChain(1, 2, 3)
+    val encoded  = FormDataEncoder[NonEmptyChain[Int]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0", "1"),
+        ("1", "2"),
+        ("2", "3")
+      )
+    }
+  }
+
+  test("should encode a NonEmptyChain[List[Int]]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = NonEmptyChain(List(1, 2), List(3, 4))
+    val encoded  = FormDataEncoder[NonEmptyChain[List[Int]]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0.0", "1"),
+        ("0.1", "2"),
+        ("1.0", "3"),
+        ("1.1", "4")
+      )
+    }
+  }
 }

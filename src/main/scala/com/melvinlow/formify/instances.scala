@@ -1,6 +1,7 @@
 package com.melvinlow.formify
 
 import cats.*
+import cats.data.*
 import cats.syntax.all.*
 
 import java.util.UUID
@@ -74,6 +75,18 @@ object instances {
         val encoded = values.map(enc.encode).filter(_.isNonEmpty)
         encoded.zipWithIndex.map { case (value, idx) => (idx.toString, value) }.toMap
       }
+
+    given neChainFormEncoder_F[T: FormDataEncoder]: FormDataEncoder[NonEmptyChain[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
+
+    given neChainFormEncoder_V[T: FormValueEncoder]: FormDataEncoder[NonEmptyChain[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
+
+    given chainFormEncoder_F[T: FormDataEncoder]: FormDataEncoder[Chain[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
+
+    given chainFormEncoder_V[T: FormValueEncoder]: FormDataEncoder[Chain[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
 
     given vectorFormEncoder_F[T: FormDataEncoder]: FormDataEncoder[Vector[T]] =
       FormDataEncoder[List[T]].contramap(_.toList)
