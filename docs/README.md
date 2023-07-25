@@ -201,7 +201,7 @@ FormDataEncoder.encode(mai).compile.toList
 Finally, it's worth noting that `x-www-form-urlencoded` payloads
 are fundamentally just key-value pairs. As such, there
 is no inherent notion of nesting. However, the definition
-of `FormData` under the hood is just
+of `FormData` underneath the hood is just
 a `Chain[(NonEmptyChain[String], String)]` (i.e., key-value pairs),
 which means that it is flexible enough to support any encoding scheme.
 
