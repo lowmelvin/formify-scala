@@ -136,10 +136,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-25T12:19:43.782682Z)
+// jay: Person = Person(created_at = 2023-07-25T12:29:23.588909Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res5: List[Tuple2[String, String]] = List(("created_at", "1690287583"))
+// res5: List[Tuple2[String, String]] = List(("created_at", "1690288163"))
 ```
 
 ### FormDataEncoder[T]
@@ -234,3 +234,17 @@ Simply go through `instances.scala` and
 [import](https://docs.scala-lang.org/scala3/reference/contextual/given-imports.html)
 whatever default converters you need. You can then implement
 the rest as you see fit.
+
+## FAQ
+
+### What does `compile` do?
+
+As mentioned earlier, `FormData` is really just an opaque type alias to
+`Chain[(NonEmptyChain[String], Option[String])]`. The
+`NonEmptyChain[String]` represents a field name that is possibly split
+into fragments due to nesting, while the `Option[String]` represents a
+value which may or may not exist.
+
+The `compile` method simply converts this type into a `Chain[(String, String)]`
+by merging the fragments using the provided `FormFieldComposer`
+and discarding any fields with missing values.
