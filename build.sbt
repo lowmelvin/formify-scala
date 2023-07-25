@@ -23,8 +23,7 @@ usePgpKeyHex("821A82C15670B776F9950C8046E96DBCFD1E8107")
 
 lazy val root = (project in file("."))
   .settings(
-    name    := "formify",
-    version := "0.1.0-SNAPSHOT",
+    name := "formify",
     libraryDependencies ++= Seq(
       "org.typelevel"       %% "cats-core"   % CatsVersion,
       "com.disneystreaming" %% "weaver-cats" % WeaverCatsVersion % Test
@@ -51,8 +50,5 @@ lazy val docs = (project in file("formify-docs"))
   .enablePlugins(MdocPlugin)
   .settings(
     mdocIn  := file("docs/README.md"),
-    mdocOut := file("README.md"),
-    mdocVariables := Map(
-      "VERSION" -> version.value
-    )
+    mdocOut := file("README.md")
   )
