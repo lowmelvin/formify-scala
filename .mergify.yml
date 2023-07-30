@@ -1,0 +1,14 @@
+queue_rules:
+  - name: steward
+    queue_conditions:
+      - author=scala-steward
+    merge_conditions:
+      - author=scala-steward
+      - check-success=ci
+
+pull_request_rules:
+  - name: merge using the steward queue
+    conditions:
+      - author=scala-steward
+    actions:
+      queue:
