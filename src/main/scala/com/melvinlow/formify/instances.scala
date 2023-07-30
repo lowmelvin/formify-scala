@@ -10,7 +10,7 @@ import scala.compiletime.summonFrom
 import scala.deriving.*
 
 object instances {
-  trait FormValueEncoders {
+  object FormValueEncoderInstances {
     given stringValueEncoder: FormValueEncoder[String]   = (value: String) => FormValue(value)
     given booleanValueEncoder: FormValueEncoder[Boolean] = stringValueEncoder.contramap(_.toString)
     given byteValueEncoder: FormValueEncoder[Byte]       = stringValueEncoder.contramap(_.toString)
@@ -36,7 +36,7 @@ object instances {
     }
   }
 
-  trait FormDataEncoders {
+  object FormDataEncoderInstances {
     given optionFormEncoder[T](using enc: FormDataEncoder[T]): FormDataEncoder[Option[T]] = {
       case Some(value) => enc.encode(value)
       case None        => FormData.empty
@@ -107,14 +107,19 @@ object instances {
       FormDataEncoder[List[T]].contramap(_.toList)
   }
 
-  trait ProductEncoders {
+  object ProductEncoderInstances {
     inline given productFormEncoder[T: Mirror.ProductOf]: FormDataEncoder[T] =
       FormDataEncoder.derived[T]
   }
 
-  object FormDataEncoderInstances  extends FormDataEncoders
-  object FormValueEncoderInstances extends FormValueEncoders
-  object ProductEncoderInstances   extends ProductEncoders
-  object semiauto                  extends FormDataEncoders with FormValueEncoders
-  object auto extends FormDataEncoders with FormValueEncoders with ProductEncoders
+  object semiauto {
+    export FormValueEncoderInstances.given
+    export FormDataEncoderInstances.given
+  }
+
+  object auto {
+    export FormValueEncoderInstances.given
+    export FormDataEncoderInstances.given
+    export ProductEncoderInstances.given
+  }
 }
