@@ -51,7 +51,7 @@ FormDataEncoder.encode(data).serialize
 // res1: String = "line_items%5B0%5D%5Bprice%5D=price_H5ggYwtDq4fbrJ&line_items%5B0%5D%5Bquantity%5D=2&mode=payment"
 ```
 
-The compiled version (before `.toList`) is a `Chain[String, String]`,
+The compiled version (before `.toList`) is a `Chain[(String, String)]`,
 which can be passed directly to http4s's `UrlForm`.
 
 ## Basic Usage
@@ -136,10 +136,10 @@ After this, you can conveniently use `java.time.Instant` in your ADTs:
 final case class Person(created_at: Instant)
 
 val jay = Person(Instant.now)
-// jay: Person = Person(created_at = 2023-07-30T09:04:47.271721Z)
+// jay: Person = Person(created_at = 2023-08-07T06:16:50.648187Z)
 
 FormDataEncoder.encode(jay).compile.toList
-// res5: List[Tuple2[String, String]] = List(("created_at", "1690707887"))
+// res5: List[Tuple2[String, String]] = List(("created_at", "1691389010"))
 ```
 
 ### FormDataEncoder[T]
