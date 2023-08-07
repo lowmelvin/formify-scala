@@ -1,7 +1,7 @@
 # Formify-Scala
 
 Formify is a Scala 3 utility library built to convert
-generic product types into the `x-www-form-urlencoded` data format.
+case classes into the `x-www-form-urlencoded` data format.
 This format is sometimes required by various APIs (notably
 the [Stripe API](https://stripe.com/docs/api)
 and [Twilio API](https://www.twilio.com/docs/usage/api))
