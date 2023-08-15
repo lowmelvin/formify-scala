@@ -1,4 +1,4 @@
-val CatsVersion       = "2.9.0"
+val CatsVersion       = "2.10.0"
 val WeaverCatsVersion = "0.8.3"
 
 ThisBuild / organization     := "com.melvinlow"
