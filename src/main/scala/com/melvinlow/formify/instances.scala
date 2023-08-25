@@ -76,6 +76,12 @@ object instances {
         encoded.zipWithIndex.map { case (value, idx) => (idx.toString, value) }.toMap
       }
 
+    given neListFormEncoder_F[T: FormDataEncoder]: FormDataEncoder[NonEmptyList[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
+
+    given neListFormEncoder_V[T: FormValueEncoder]: FormDataEncoder[NonEmptyList[T]] =
+      FormDataEncoder[List[T]].contramap(_.toList)
+
     given neChainFormEncoder_F[T: FormDataEncoder]: FormDataEncoder[NonEmptyChain[T]] =
       FormDataEncoder[List[T]].contramap(_.toList)
 

@@ -3,7 +3,7 @@ package com.melvinlow.formify
 import cats.data.*
 import cats.syntax.all.*
 
-object FormFieldSpec$ extends weaver.FunSuite {
+object FormFieldSpec extends weaver.FunSuite {
   test("should wrap and unwrap") {
     val fragment = FormFieldFragment("hello")
     expect(FormField.one(fragment).underlying == NonEmptyChain(fragment))

@@ -511,4 +511,39 @@ object FormDataEncoderSpec extends weaver.FunSuite {
       )
     }
   }
+
+  test("should encode a NonEmptyList[Int]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = NonEmptyList(1, List(2, 3))
+    val encoded  = FormDataEncoder[NonEmptyList[Int]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0", "1"),
+        ("1", "2"),
+        ("2", "3")
+      )
+    }
+  }
+
+  test("should encode a NonEmptyList[List[Int]]") {
+    import com.melvinlow.formify.instances.auto.given
+
+    val instance = NonEmptyList(List(1, 2), List(List(3, 4)))
+    val encoded  = FormDataEncoder[NonEmptyList[List[Int]]].encode(instance)
+
+    given FormFieldComposer = FormFieldComposer.make(_.toList.mkString("."))
+
+    expect {
+      encoded.compile == Chain(
+        ("0.0", "1"),
+        ("0.1", "2"),
+        ("1.0", "3"),
+        ("1.1", "4")
+      )
+    }
+  }
 }
