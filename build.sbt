@@ -4,7 +4,7 @@ val WeaverCatsVersion = "0.8.4"
 ThisBuild / organization     := "com.melvinlow"
 ThisBuild / organizationName := "Melvin Low"
 
-ThisBuild / scalaVersion       := "3.4.2"
+ThisBuild / scalaVersion       := "3.4.3"
 ThisBuild / crossScalaVersions := Seq(scalaVersion.value)
 
 ThisBuild / semanticdbEnabled := true
