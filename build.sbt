@@ -1,5 +1,5 @@
 val CatsVersion       = "2.12.0"
-val WeaverCatsVersion = "0.8.4"
+val WeaverCatsVersion = "0.9.1"
 
 ThisBuild / organization     := "com.melvinlow"
 ThisBuild / organizationName := "Melvin Low"
@@ -26,8 +26,8 @@ lazy val root = (project in file("."))
     name        := "formify",
     description := "Scala library to convert generic product types to form data",
     libraryDependencies ++= Seq(
-      "org.typelevel"       %% "cats-core"   % CatsVersion,
-      "com.disneystreaming" %% "weaver-cats" % WeaverCatsVersion % Test
+      "org.typelevel" %% "cats-core"   % CatsVersion,
+      "org.typelevel" %% "weaver-cats" % WeaverCatsVersion % Test
     ),
     scalacOptions ++= Seq(
       "-encoding",
